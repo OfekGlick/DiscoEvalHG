@@ -18,7 +18,7 @@ PDTB_TRAIN_NAME = 'train.txt'
 PDTB_VALID_NAME = 'valid.txt'
 PDTB_TEST_NAME = 'test.txt'
 PDTB_DATA_DIR = 'data/PDTB'
-PDTB_DIRS = {PDTB_E: 'Explicit/', PDTB_I: 'Implicit/'}
+PDTB_DIRS = {PDTB_E: 'Explicit', PDTB_I: 'Implicit'}
 PDTB_E_LABELS = [
     'Comparison.Concession',
     'Comparison.Contrast',
@@ -58,9 +58,21 @@ SP_TRAIN_NAME = 'train.txt'
 SP_VALID_NAME = 'valid.txt'
 SP_TEST_NAME = 'test.txt'
 SP_DATA_DIR = 'data/SP'
-SP_DIRS = {SPARXIV: 'arxiv/', SPROCSTORY: 'rocstory/', SPWIKI: 'wiki/'}
+SP_DIRS = {SPARXIV: 'arxiv', SPROCSTORY: 'rocstory', SPWIKI: 'wiki'}
 SP_LABELS = ["0", "1", "2", "3", "4"]
 SP_TEXT_COLUMNS = 5
+
+# BSO Constants:
+BSOARXIV = 'BSOarxiv'
+BSOROCSTORY = 'BSOrocstory'
+BSOWIKI = 'BSOwiki'
+BSO_TRAIN_NAME = 'train.txt'
+BSO_VALID_NAME = 'valid.txt'
+BSO_TEST_NAME = 'test.txt'
+BSO_DATA_DIR = 'data/BSO'
+BSO_DIRS = {BSOARXIV: 'arxiv', BSOROCSTORY: 'rocstory', BSOWIKI: 'wiki'}
+BSO_LABELS = ["0", "1"]
+BSO_TEXT_COLUMNS = 2
 
 # DC Constants:
 DCCHAT = 'DCchat'
@@ -69,7 +81,7 @@ DC_TRAIN_NAME = 'train.txt'
 DC_VALID_NAME = 'valid.txt'
 DC_TEST_NAME = 'test.txt'
 DC_DATA_DIR = 'data/DC'
-DC_DIRS = {DCCHAT: 'chat/', DCWIKI: 'wiki/'}
+DC_DIRS = {DCCHAT: 'chat', DCWIKI: 'wiki'}
 DC_LABELS = ["0", "1"]
 DC_TEXT_COLUMNS = 6
 
