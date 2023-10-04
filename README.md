@@ -145,7 +145,6 @@ This benchmark was created by Mingda Chen, Zewei Chu and Kevin Gimpel during wor
 ### Citation Information
 
 ```
-
 @inproceedings{mchen-discoeval-19,
                 title = {Evaluation Benchmarks and Learning Criteria for Discourse-Aware Sentence Representations},
                 author = {Mingda Chen and Zewei Chu and Kevin Gimpel},
