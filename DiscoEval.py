@@ -15,7 +15,7 @@
 import os
 import io
 import datasets
-import constants
+import DiscoEvalConstants
 import pickle
 import logging
 
@@ -40,122 +40,122 @@ class DiscoEvalSentence(datasets.GeneratorBasedBuilder):
     VERSION = datasets.Version("1.1.0")
     BUILDER_CONFIGS = [
         datasets.BuilderConfig(
-            name=constants.SPARXIV,
+            name=DiscoEvalConstants.SPARXIV,
             version=VERSION,
             description="Sentence positioning dataset from arXiv",
         ),
         datasets.BuilderConfig(
-            name=constants.SPROCSTORY,
+            name=DiscoEvalConstants.SPROCSTORY,
             version=VERSION,
             description="Sentence positioning dataset from ROCStory",
         ),
         datasets.BuilderConfig(
-            name=constants.SPWIKI,
+            name=DiscoEvalConstants.SPWIKI,
             version=VERSION,
             description="Sentence positioning dataset from Wikipedia",
         ),
         datasets.BuilderConfig(
-            name=constants.DCCHAT,
+            name=DiscoEvalConstants.DCCHAT,
             version=VERSION,
             description="Discourse Coherence dataset from chat",
         ),
         datasets.BuilderConfig(
-            name=constants.DCWIKI,
+            name=DiscoEvalConstants.DCWIKI,
             version=VERSION,
             description="Discourse Coherence dataset from Wikipedia",
         ),
         datasets.BuilderConfig(
-            name=constants.RST,
+            name=DiscoEvalConstants.RST,
             version=VERSION,
             description="The RST Discourse Treebank dataset ",
         ),
         datasets.BuilderConfig(
-            name=constants.PDTB_E,
+            name=DiscoEvalConstants.PDTB_E,
             version=VERSION,
             description="The Penn Discourse Treebank - Explicit dataset.",
         ),
         datasets.BuilderConfig(
-            name=constants.PDTB_I,
+            name=DiscoEvalConstants.PDTB_I,
             version=VERSION,
             description="The Penn Discourse Treebank - Implicit dataset.",
         ),
         datasets.BuilderConfig(
-            name=constants.SSPABS,
+            name=DiscoEvalConstants.SSPABS,
             version=VERSION,
             description="The SSP dataset.",
         ),
         datasets.BuilderConfig(
-            name=constants.BSOARXIV,
+            name=DiscoEvalConstants.BSOARXIV,
             version=VERSION,
             description="The BSO Task with the arxiv dataset.",
         ),
         datasets.BuilderConfig(
-            name=constants.BSOWIKI,
+            name=DiscoEvalConstants.BSOWIKI,
             version=VERSION,
             description="The BSO Task with the wiki dataset.",
         ),
         datasets.BuilderConfig(
-            name=constants.BSOROCSTORY,
+            name=DiscoEvalConstants.BSOROCSTORY,
             version=VERSION,
             description="The BSO Task with the rocstory dataset.",
         ),
     ]
 
     def _info(self):
-        if self.config.name in [constants.SPARXIV, constants.SPROCSTORY, constants.SPWIKI]:
+        if self.config.name in [DiscoEvalConstants.SPARXIV, DiscoEvalConstants.SPROCSTORY, DiscoEvalConstants.SPWIKI]:
             features_dict = {
-                constants.TEXT_COLUMN_NAME[i]: datasets.Value('string')
-                for i in range(constants.SP_TEXT_COLUMNS)
+                DiscoEvalConstants.TEXT_COLUMN_NAME[i]: datasets.Value('string')
+                for i in range(DiscoEvalConstants.SP_TEXT_COLUMNS)
             }
-            features_dict[constants.LABEL_NAME] = datasets.ClassLabel(names=constants.SP_LABELS)
+            features_dict[DiscoEvalConstants.LABEL_NAME] = datasets.ClassLabel(names=DiscoEvalConstants.SP_LABELS)
             features = datasets.Features(features_dict)
 
-        elif self.config.name in [constants.BSOARXIV, constants.BSOWIKI, constants.BSOROCSTORY]:
+        elif self.config.name in [DiscoEvalConstants.BSOARXIV, DiscoEvalConstants.BSOWIKI, DiscoEvalConstants.BSOROCSTORY]:
             features_dict = {
-                constants.TEXT_COLUMN_NAME[i]: datasets.Value('string')
-                for i in range(constants.BSO_TEXT_COLUMNS)
+                DiscoEvalConstants.TEXT_COLUMN_NAME[i]: datasets.Value('string')
+                for i in range(DiscoEvalConstants.BSO_TEXT_COLUMNS)
             }
-            features_dict[constants.LABEL_NAME] = datasets.ClassLabel(names=constants.BSO_LABELS)
+            features_dict[DiscoEvalConstants.LABEL_NAME] = datasets.ClassLabel(names=DiscoEvalConstants.BSO_LABELS)
             features = datasets.Features(features_dict)
 
-        elif self.config.name in [constants.DCCHAT, constants.DCWIKI]:
+        elif self.config.name in [DiscoEvalConstants.DCCHAT, DiscoEvalConstants.DCWIKI]:
             features_dict = {
-                constants.TEXT_COLUMN_NAME[i]: datasets.Value('string')
-                for i in range(constants.DC_TEXT_COLUMNS)
+                DiscoEvalConstants.TEXT_COLUMN_NAME[i]: datasets.Value('string')
+                for i in range(DiscoEvalConstants.DC_TEXT_COLUMNS)
             }
-            features_dict[constants.LABEL_NAME] = datasets.ClassLabel(names=constants.DC_LABELS)
+            features_dict[DiscoEvalConstants.LABEL_NAME] = datasets.ClassLabel(names=DiscoEvalConstants.DC_LABELS)
             features = datasets.Features(features_dict)
 
-        elif self.config.name in [constants.RST]:
+        elif self.config.name in [DiscoEvalConstants.RST]:
             features_dict = {
-                constants.TEXT_COLUMN_NAME[i]: [datasets.Value('string')]
-                for i in range(constants.RST_TEXT_COLUMNS)
+                DiscoEvalConstants.TEXT_COLUMN_NAME[i]: [datasets.Value('string')]
+                for i in range(DiscoEvalConstants.RST_TEXT_COLUMNS)
             }
-            features_dict[constants.LABEL_NAME] = datasets.ClassLabel(names=constants.RST_LABELS)
+            features_dict[DiscoEvalConstants.LABEL_NAME] = datasets.ClassLabel(names=DiscoEvalConstants.RST_LABELS)
             features = datasets.Features(features_dict)
 
-        elif self.config.name in [constants.PDTB_E]:
+        elif self.config.name in [DiscoEvalConstants.PDTB_E]:
             features_dict = {
-                constants.TEXT_COLUMN_NAME[i]: datasets.Value('string')
-                for i in range(constants.PDTB_E_TEXT_COLUMNS)
+                DiscoEvalConstants.TEXT_COLUMN_NAME[i]: datasets.Value('string')
+                for i in range(DiscoEvalConstants.PDTB_E_TEXT_COLUMNS)
             }
-            features_dict[constants.LABEL_NAME] = datasets.ClassLabel(names=constants.PDTB_E_LABELS)
+            features_dict[DiscoEvalConstants.LABEL_NAME] = datasets.ClassLabel(names=DiscoEvalConstants.PDTB_E_LABELS)
             features = datasets.Features(features_dict)
 
-        elif self.config.name in [constants.PDTB_I]:
+        elif self.config.name in [DiscoEvalConstants.PDTB_I]:
             features_dict = {
-                constants.TEXT_COLUMN_NAME[i]: datasets.Value('string')
-                for i in range(constants.PDTB_I_TEXT_COLUMNS)
+                DiscoEvalConstants.TEXT_COLUMN_NAME[i]: datasets.Value('string')
+                for i in range(DiscoEvalConstants.PDTB_I_TEXT_COLUMNS)
             }
-            features_dict[constants.LABEL_NAME] = datasets.ClassLabel(names=constants.PDTB_I_LABELS)
+            features_dict[DiscoEvalConstants.LABEL_NAME] = datasets.ClassLabel(names=DiscoEvalConstants.PDTB_I_LABELS)
             features = datasets.Features(features_dict)
 
-        elif self.config.name in [constants.SSPABS]:
+        elif self.config.name in [DiscoEvalConstants.SSPABS]:
             features_dict = {
-                constants.TEXT_COLUMN_NAME[i]: datasets.Value('string')
-                for i in range(constants.SSPABS_TEXT_COLUMNS)
+                DiscoEvalConstants.TEXT_COLUMN_NAME[i]: datasets.Value('string')
+                for i in range(DiscoEvalConstants.SSPABS_TEXT_COLUMNS)
             }
-            features_dict[constants.LABEL_NAME] = datasets.ClassLabel(names=constants.SSPABS_LABELS)
+            features_dict[DiscoEvalConstants.LABEL_NAME] = datasets.ClassLabel(names=DiscoEvalConstants.SSPABS_LABELS)
             features = datasets.Features(features_dict)
 
         return datasets.DatasetInfo(
@@ -166,41 +166,41 @@ class DiscoEvalSentence(datasets.GeneratorBasedBuilder):
         )
 
     def _split_generators(self, dl_manager):
-        if self.config.name in [constants.SPARXIV, constants.SPROCSTORY, constants.SPWIKI]:
-            data_dir = constants.SP_DATA_DIR + "/" + constants.SP_DIRS[self.config.name]
-            train_name = constants.SP_TRAIN_NAME
-            valid_name = constants.SP_VALID_NAME
-            test_name = constants.SP_TEST_NAME
+        if self.config.name in [DiscoEvalConstants.SPARXIV, DiscoEvalConstants.SPROCSTORY, DiscoEvalConstants.SPWIKI]:
+            data_dir = DiscoEvalConstants.SP_DATA_DIR + "/" + DiscoEvalConstants.SP_DIRS[self.config.name]
+            train_name = DiscoEvalConstants.SP_TRAIN_NAME
+            valid_name = DiscoEvalConstants.SP_VALID_NAME
+            test_name = DiscoEvalConstants.SP_TEST_NAME
 
-        elif self.config.name in [constants.BSOARXIV, constants.BSOWIKI, constants.BSOROCSTORY]:
-            data_dir = constants.BSO_DATA_DIR + "/" + constants.BSO_DIRS[self.config.name]
-            train_name = constants.BSO_TRAIN_NAME
-            valid_name = constants.BSO_VALID_NAME
-            test_name = constants.BSO_TEST_NAME
+        elif self.config.name in [DiscoEvalConstants.BSOARXIV, DiscoEvalConstants.BSOWIKI, DiscoEvalConstants.BSOROCSTORY]:
+            data_dir = DiscoEvalConstants.BSO_DATA_DIR + "/" + DiscoEvalConstants.BSO_DIRS[self.config.name]
+            train_name = DiscoEvalConstants.BSO_TRAIN_NAME
+            valid_name = DiscoEvalConstants.BSO_VALID_NAME
+            test_name = DiscoEvalConstants.BSO_TEST_NAME
 
-        elif self.config.name in [constants.DCCHAT, constants.DCWIKI]:
-            data_dir = constants.DC_DATA_DIR + "/" + constants.DC_DIRS[self.config.name]
-            train_name = constants.DC_TRAIN_NAME
-            valid_name = constants.DC_VALID_NAME
-            test_name = constants.DC_TEST_NAME
+        elif self.config.name in [DiscoEvalConstants.DCCHAT, DiscoEvalConstants.DCWIKI]:
+            data_dir = DiscoEvalConstants.DC_DATA_DIR + "/" + DiscoEvalConstants.DC_DIRS[self.config.name]
+            train_name = DiscoEvalConstants.DC_TRAIN_NAME
+            valid_name = DiscoEvalConstants.DC_VALID_NAME
+            test_name = DiscoEvalConstants.DC_TEST_NAME
 
-        elif self.config.name in [constants.RST]:
-            data_dir = constants.RST_DATA_DIR
-            train_name = constants.RST_TRAIN_NAME
-            valid_name = constants.RST_VALID_NAME
-            test_name = constants.RST_TEST_NAME
+        elif self.config.name in [DiscoEvalConstants.RST]:
+            data_dir = DiscoEvalConstants.RST_DATA_DIR
+            train_name = DiscoEvalConstants.RST_TRAIN_NAME
+            valid_name = DiscoEvalConstants.RST_VALID_NAME
+            test_name = DiscoEvalConstants.RST_TEST_NAME
 
-        elif self.config.name in [constants.PDTB_E, constants.PDTB_I]:
-            data_dir = os.path.join(constants.PDTB_DATA_DIR, constants.PDTB_DIRS[self.config.name])
-            train_name = constants.PDTB_TRAIN_NAME
-            valid_name = constants.PDTB_VALID_NAME
-            test_name = constants.PDTB_TEST_NAME
+        elif self.config.name in [DiscoEvalConstants.PDTB_E, DiscoEvalConstants.PDTB_I]:
+            data_dir = os.path.join(DiscoEvalConstants.PDTB_DATA_DIR, DiscoEvalConstants.PDTB_DIRS[self.config.name])
+            train_name = DiscoEvalConstants.PDTB_TRAIN_NAME
+            valid_name = DiscoEvalConstants.PDTB_VALID_NAME
+            test_name = DiscoEvalConstants.PDTB_TEST_NAME
 
-        elif self.config.name in [constants.SSPABS]:
-            data_dir = constants.SSPABS_DATA_DIR
-            train_name = constants.SSPABS_TRAIN_NAME
-            valid_name = constants.SSPABS_VALID_NAME
-            test_name = constants.SSPABS_TEST_NAME
+        elif self.config.name in [DiscoEvalConstants.SSPABS]:
+            data_dir = DiscoEvalConstants.SSPABS_DATA_DIR
+            train_name = DiscoEvalConstants.SSPABS_TRAIN_NAME
+            valid_name = DiscoEvalConstants.SSPABS_VALID_NAME
+            test_name = DiscoEvalConstants.SSPABS_TEST_NAME
 
         urls_to_download = {
             "train": data_dir + "/" + train_name,
@@ -241,17 +241,17 @@ class DiscoEvalSentence(datasets.GeneratorBasedBuilder):
         logger = logging.getLogger(__name__)
         logger.info(f"Current working dir: {os.getcwd()}")
         logger.info("generating examples from = %s", filepath)
-        if self.config.name == constants.RST:
+        if self.config.name == DiscoEvalConstants.RST:
             data = pickle.load(open(filepath, "rb"))
             for key, line in enumerate(data):
-                example = {constants.TEXT_COLUMN_NAME[i]: sent for i, sent in enumerate(line[1:])}
-                example[constants.LABEL_NAME] = line[0]
+                example = {DiscoEvalConstants.TEXT_COLUMN_NAME[i]: sent for i, sent in enumerate(line[1:])}
+                example[DiscoEvalConstants.LABEL_NAME] = line[0]
                 yield key, example
 
         else:
             with io.open(filepath, mode='r', encoding='utf-8') as f:
                 for key, line in enumerate(f):
                     line = line.strip().split("\t")
-                    example = {constants.TEXT_COLUMN_NAME[i]: sent for i, sent in enumerate(line[1:])}
-                    example[constants.LABEL_NAME] = line[0]
+                    example = {DiscoEvalConstants.TEXT_COLUMN_NAME[i]: sent for i, sent in enumerate(line[1:])}
+                    example[DiscoEvalConstants.LABEL_NAME] = line[0]
                     yield key, example
