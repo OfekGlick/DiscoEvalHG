@@ -115,7 +115,7 @@ class DiscoEvalSentence(datasets.GeneratorBasedBuilder):
                 DiscoEvalConstants.TEXT_COLUMN_NAME[i]: datasets.Value('string')
                 for i in range(DiscoEvalConstants.BSO_TEXT_COLUMNS)
             }
-            features_dict[DiscoEvalConstants.LABEL_NAME] = datasets.ClassLabel(names=DiscoEvalConstants.BSO_LABELS)
+            features_dict[DiscoEvalConstants.LABEL_NAME] = datasets.ClassLabel(names=DiscoEvalConstants.BSO_LABELS.values())
             features = datasets.Features(features_dict)
 
         elif self.config.name in [DiscoEvalConstants.DCCHAT, DiscoEvalConstants.DCWIKI]:
@@ -123,7 +123,7 @@ class DiscoEvalSentence(datasets.GeneratorBasedBuilder):
                 DiscoEvalConstants.TEXT_COLUMN_NAME[i]: datasets.Value('string')
                 for i in range(DiscoEvalConstants.DC_TEXT_COLUMNS)
             }
-            features_dict[DiscoEvalConstants.LABEL_NAME] = datasets.ClassLabel(names=DiscoEvalConstants.DC_LABELS)
+            features_dict[DiscoEvalConstants.LABEL_NAME] = datasets.ClassLabel(names=DiscoEvalConstants.DC_LABELS.values())
             features = datasets.Features(features_dict)
 
         elif self.config.name in [DiscoEvalConstants.RST]:
@@ -155,7 +155,7 @@ class DiscoEvalSentence(datasets.GeneratorBasedBuilder):
                 DiscoEvalConstants.TEXT_COLUMN_NAME[i]: datasets.Value('string')
                 for i in range(DiscoEvalConstants.SSPABS_TEXT_COLUMNS)
             }
-            features_dict[DiscoEvalConstants.LABEL_NAME] = datasets.ClassLabel(names=DiscoEvalConstants.SSPABS_LABELS)
+            features_dict[DiscoEvalConstants.LABEL_NAME] = datasets.ClassLabel(names=DiscoEvalConstants.SSPABS_LABELS.values())
             features = datasets.Features(features_dict)
 
         return datasets.DatasetInfo(
@@ -253,5 +253,14 @@ class DiscoEvalSentence(datasets.GeneratorBasedBuilder):
                 for key, line in enumerate(f):
                     line = line.strip().split("\t")
                     example = {DiscoEvalConstants.TEXT_COLUMN_NAME[i]: sent for i, sent in enumerate(line[1:])}
-                    example[DiscoEvalConstants.LABEL_NAME] = line[0]
+                    if self.config.name in (DiscoEvalConstants.PDTB_E, DiscoEvalConstants.PDTB_I):
+                        example[DiscoEvalConstants.LABEL_NAME] = line[0]
+                    elif self.config.name in (DiscoEvalConstants.DCCHAT, DiscoEvalConstants.DCWIKI):
+                        example[DiscoEvalConstants.LABEL_NAME] = DiscoEvalConstants.DC_LABELS[line[0]]
+                    elif self.config.name == DiscoEvalConstants.SSPABS:
+                        example[DiscoEvalConstants.LABEL_NAME] = DiscoEvalConstants.SSPABS_LABELS[line[0]]
+                    elif self.config.name in (DiscoEvalConstants.SPWIKI, DiscoEvalConstants.SPROCSTORY, DiscoEvalConstants.SPARXIV):
+                        example[DiscoEvalConstants.LABEL_NAME] = DiscoEvalConstants.SP_LABELS[line[0]]
+                    elif self.config.name in (DiscoEvalConstants.BSOARXIV, DiscoEvalConstants.BSOWIKI, DiscoEvalConstants.BSOROCSTORY):
+                        example[DiscoEvalConstants.LABEL_NAME] = DiscoEvalConstants.BSO_LABELS[line[0]]
                     yield key, example

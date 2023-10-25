@@ -1,6 +1,18 @@
 # General Constants:
 LABEL_NAME = 'label'
-TEXT_COLUMN_NAME = [f"sentence_{i}" for i in range(1, 10)]
+numbers = {
+    1: "first",
+    2: "second",
+    3: "third",
+    4: "fourth",
+    5: "fifth",
+    6: "sixth",
+    7: "seventh",
+    8: "eighth",
+    9: "ninth"
+
+}
+TEXT_COLUMN_NAME = [f"{numbers[i]}_sentence" for i in range(1, 10)]
 
 # SSPabs Constants:
 SSPABS = 'SSPabs'
@@ -8,7 +20,10 @@ SSPABS_TRAIN_NAME = 'train.txt'
 SSPABS_VALID_NAME = 'valid.txt'
 SSPABS_TEST_NAME = 'test.txt'
 SSPABS_DATA_DIR = 'data/SSP/abs'
-SSPABS_LABELS = ["0", "1"]
+SSPABS_LABELS = {
+    "0": "Does not belong to abstract",
+    "1": "Belongs to abstract",
+}
 SSPABS_TEXT_COLUMNS = 1
 
 # PDTB Constants:
@@ -49,7 +64,6 @@ PDTB_I_LABELS = [
 PDTB_E_TEXT_COLUMNS = 2
 PDTB_I_TEXT_COLUMNS = 2
 
-
 # SP Constants:
 SPARXIV = 'SParxiv'
 SPROCSTORY = 'SProcstory'
@@ -59,7 +73,13 @@ SP_VALID_NAME = 'valid.txt'
 SP_TEST_NAME = 'test.txt'
 SP_DATA_DIR = 'data/SP'
 SP_DIRS = {SPARXIV: 'arxiv', SPROCSTORY: 'rocstory', SPWIKI: 'wiki'}
-SP_LABELS = ["0", "1", "2", "3", "4"]
+SP_LABELS = {
+    "0": 'First sentence',
+    "1": 'Second sentence',
+    "2": 'Third sentence',
+    "3": "Fourth sentence",
+    "4": "Fifth sentence",
+}
 SP_TEXT_COLUMNS = 5
 
 # BSO Constants:
@@ -71,7 +91,10 @@ BSO_VALID_NAME = 'valid.txt'
 BSO_TEST_NAME = 'test.txt'
 BSO_DATA_DIR = 'data/BSO'
 BSO_DIRS = {BSOARXIV: 'arxiv', BSOROCSTORY: 'rocstory', BSOWIKI: 'wiki'}
-BSO_LABELS = ["0", "1"]
+BSO_LABELS = {
+    "0": 'Incorrect order',
+    "1": 'Correct order',
+}
 BSO_TEXT_COLUMNS = 2
 
 # DC Constants:
@@ -82,9 +105,11 @@ DC_VALID_NAME = 'valid.txt'
 DC_TEST_NAME = 'test.txt'
 DC_DATA_DIR = 'data/DC'
 DC_DIRS = {DCCHAT: 'chat', DCWIKI: 'wiki'}
-DC_LABELS = ["0", "1"]
+DC_LABELS = {
+    "0": "Incoherent",
+    "1": "Coherent",
+}
 DC_TEXT_COLUMNS = 6
-
 
 # RST Constants:
 RST = 'RST'
